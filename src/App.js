@@ -1,23 +1,28 @@
-import logo from './logo.svg';
+import {useEffect, useState} from 'react';
 import './App.css';
+import Axios from 'axios';
 
 function App() {
+
+  const [tables, setTables] = useState({});
+
+  useEffect(() => {
+   Axios.get('http://localhost:5000/tables')
+     .then(response=>{
+        setTables(response.data);
+     });
+
+    return () => {
+      Axios.Cancel();
+    };
+  }, []);
+
   return (
+    !tables ?
+    <p>Loading Tables</p> :
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <h1> I'm not done, I need some time </h1>
+      {tables}
     </div>
   );
 }
